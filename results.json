@@ -1,0 +1,462 @@
+{
+  "schema_version": 1,
+  "title": "A redirect crosses the header boundary",
+  "cve": "CVE-2026-44431",
+  "ghsa": "GHSA-qccp-gfcp-xxvc",
+  "advisory_published_at": "2026-05-07T16:33:54Z",
+  "verified_at_utc": "2026-09-27T05:16:48.826758+00:00",
+  "advisory": "https://github.com/urllib3/urllib3/security/advisories/GHSA-qccp-gfcp-xxvc",
+  "upstream_fix": "https://github.com/urllib3/urllib3/commit/5ec0de499b9166ca71c65ab04f2a7e4eb0d66fcc",
+  "attribution": {
+    "reporter": "christos-cantina-security",
+    "coordinator": "illia-v",
+    "remediation_reviewer": "sethmlarson",
+    "portfolio_work": "Independent offline regression; original test harness."
+  },
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "Windows"
+  },
+  "method": "Exact urllib3 release wheels imported directly in isolated subprocesses. Real redirect implementation; HTTPConnectionPool._make_request replaced by fixed responses and argument capture. Sockets and DNS disabled.",
+  "cases_per_version": 6,
+  "total_cases_passed": 12,
+  "network_attempts_during_replay": 0,
+  "versions": [
+    {
+      "version": "2.6.3",
+      "wheel_sha256": "bf272323e553dfb2e87d9bfd225ca7b0f467b919d7bbd355436d3fd37cb0acd4",
+      "status_for_this_cve": "affected",
+      "cases": [
+        {
+          "id": "low_level_cross_origin",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "low_level_lowercase_headers",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "authorization": "DUMMY_AUTHORIZATION",
+                "cookie": "DUMMY_COOKIE=1",
+                "proxy-authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "x-research-control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "authorization": "DUMMY_AUTHORIZATION",
+                "cookie": "DUMMY_COOKIE=1",
+                "proxy-authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "x-research-control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "high_level_cross_origin_control",
+          "api": "high",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Accept": "*/*",
+                "Host": "origin-a.invalid",
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "Accept": "*/*",
+                "Host": "origin-a.invalid",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "direct_200_positive_control",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 1,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "redirect_disabled_control",
+          "api": "low",
+          "status": 302,
+          "transport_calls": 1,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "custom_removal_set",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        }
+      ],
+      "cases_passed": 6,
+      "network_attempts": 0,
+      "blocked_import_capability_probes": 1,
+      "socket_creation_disabled": true
+    },
+    {
+      "version": "2.7.0",
+      "wheel_sha256": "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897",
+      "status_for_this_cve": "fixed",
+      "cases": [
+        {
+          "id": "low_level_cross_origin",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "low_level_lowercase_headers",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "authorization": "DUMMY_AUTHORIZATION",
+                "cookie": "DUMMY_COOKIE=1",
+                "proxy-authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "x-research-control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "x-research-control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "high_level_cross_origin_control",
+          "api": "high",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Accept": "*/*",
+                "Host": "origin-a.invalid",
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {
+                "Accept": "*/*",
+                "Host": "origin-a.invalid",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "direct_200_positive_control",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 1,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "redirect_disabled_control",
+          "api": "low",
+          "status": 302,
+          "transport_calls": 1,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "benign_header_retained": true,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            }
+          ],
+          "expectation_passed": true
+        },
+        {
+          "id": "custom_removal_set",
+          "api": "low",
+          "status": 200,
+          "transport_calls": 2,
+          "first_request_sensitive_headers": [
+            "authorization",
+            "cookie",
+            "proxy-authorization"
+          ],
+          "final_request_sensitive_headers": [],
+          "benign_header_retained": false,
+          "caller_headers_unchanged": true,
+          "captured_calls": [
+            {
+              "url": "http://origin-a.invalid/start",
+              "headers": {
+                "Authorization": "DUMMY_AUTHORIZATION",
+                "Cookie": "DUMMY_COOKIE=1",
+                "Proxy-Authorization": "DUMMY_PROXY_AUTHORIZATION",
+                "X-Research-Control": "DUMMY_BENIGN_CONTROL"
+              }
+            },
+            {
+              "url": "http://origin-b.invalid/final",
+              "headers": {}
+            }
+          ],
+          "expectation_passed": true
+        }
+      ],
+      "cases_passed": 6,
+      "network_attempts": 0,
+      "blocked_import_capability_probes": 1,
+      "socket_creation_disabled": true
+    }
+  ],
+  "source_sha256": {
+    "replay_fixture.py": "b2e92b641049709ac40d4313f34f3de3991f472fccf42a7fdfc215bb99855265",
+    "run_replay.py": "f627772d17f2ef0e5a457bae0e83f95701db33d0a3c0e22319aedea11618549a",
+    "pinned-releases.json": "d0112f99cc3c880284b7fc7241f68fe9502630a6e2e70244cff2a913f13db2a5"
+  },
+  "limits": [
+    "A known upstream CVE, not a new discovery or CVE assignment.",
+    "Transport is mocked; this verifies redirect argument handling, not end-to-end proxy networking.",
+    "All header values are DUMMY strings and all destinations use reserved .invalid names.",
+    "Version 2.7.0 fixes this CVE; it is not a statement about all current security issues."
+  ]
+}
