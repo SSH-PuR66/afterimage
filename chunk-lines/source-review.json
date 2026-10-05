@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "title": "Reading the streaming boundary",
+  "project_identity": "Afterimage / Chunk Lines",
+  "classification": "known_cve_bounded_offline_regression",
+  "reviewed_date": "2026-10-05",
+  "package": "urllib3",
+  "cve": "CVE-2026-97689",
+  "advisory_published_date": "2026-09-15",
+  "affected_range_upstream": ">=1.10.3, <2.8.0",
+  "first_fixed_release_upstream": "2.8.0",
+  "weakness_upstream": "CWE-770",
+  "attribution_upstream": {
+    "coordinator": "pquentin",
+    "remediation_reviewer": "illia-v"
+  },
+  "portfolio_contribution": "Sergio Rodriguez: AI-assisted independent bounded offline regression, source history review, evidence record and presentation",
+  "source_observations": {
+    "2.7.0": { "chunk_size_line_read_length_argument": "absent" },
+    "2.8.0": {
+      "chunk_size_line_maximum_read_bytes": 65537,
+      "chunk_size_line_maximum_accepted_bytes": 65536,
+      "oversize_rejection_precedes_size_conversion": true
+    }
+  },
+  "verification": {
+    "maintainer_advisory_read": true,
+    "versioned_release_source_read": true,
+    "release_notes_read": true,
+    "successful_runtime_regression": true,
+    "pypi_wheel_hashes_checked": true,
+    "wheel_response_module_matches_pinned_upstream_commit": true,
+    "memory_exhaustion_demonstrated": false,
+    "application_exploitability_established": false,
+    "new_discovery_claimed": false
+  },
+  "runtime_evidence": {
+    "file": "results.json",
+    "reproduction_script": "run_boundary.py",
+    "fixture": "boundary_fixture.py",
+    "regression_checks": "test_boundary.py",
+    "release_identity": "pinned-releases.json",
+    "cases_per_release": 16,
+    "total_cases_passed": 32,
+    "case_time_network_attempts": 0,
+    "maximum_fixture_input_bytes": 65551,
+    "upstream_fix": "https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed",
+    "scope": "Real stream/read_chunked methods over counted in-memory files; both size and trailer limits, ordinary responses and a body larger than the framing limit. Import-time IPv6 probes were blocked and are recorded separately."
+  },
+  "primary_sources": [
+    "https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw",
+    "https://github.com/urllib3/urllib3/blob/2.7.0/src/urllib3/response.py",
+    "https://github.com/urllib3/urllib3/blob/2.8.0/src/urllib3/response.py",
+    "https://github.com/urllib3/urllib3/releases/tag/2.8.0"
+  ],
+  "limits": [
+    "Small bounded in-memory fixtures verify parser behavior, not memory exhaustion or network buffering.",
+    "TLS, the requests wrapper, decompression, and real server behavior were not exercised.",
+    "No exploitability or deployed dependency assertion is established for an application.",
+    "The 2.8.0 fix is specific to this CVE; supported release selection also requires current dependency and release review."
+  ]
+}

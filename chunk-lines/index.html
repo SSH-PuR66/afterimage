@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Afterimage / Chunk Lines · CVE-2026-97689 · Sergio Rodriguez</title>
+  <meta name="description" content="32 bounded offline cases compare urllib3 2.7.0 and 2.8.0 framing limits. Pinned releases, counted reads, upstream attribution, and reproducible results.">
+  <meta name="theme-color" content="#101211">
+  <link rel="canonical" href="https://sergrdz.pages.dev/labs/cve-replay/chunk-lines/">
+  <link rel="icon" href="/images/sr-insignia.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to study</a>
+  <div class="wrap">
+    <header><a class="brand" href="../">Afterimage / Chunk Lines<span>Sergio Rodriguez · Research engineering</span></a><nav aria-label="Study navigation"><a href="../">Redirect study</a><a href="#sources">Primary sources</a><a href="/research-log.html">Research index</a></nav></header>
+    <main id="main">
+      <section class="hero">
+        <p class="label">Bounded offline regression · 05 October 2026</p>
+        <p class="identifier">CVE-2026-97689</p>
+        <h1>Before the body,<br>the parser reads a line.</h1>
+        <p class="lede">A small body read starts with a chunk-size line. In urllib3 2.7.0, that earlier read had no length limit. The 2.8.0 fix puts a cap on it.</p>
+        <p class="classification">Published upstream issue · 32 local cases passed · Application impact untested</p>
+      </section>
+      <section class="study" aria-labelledby="boundary-title">
+        <div class="margin-note"><p class="label">01 / The boundary</p><p>The chunk-size line arrives before the chunk body.</p></div>
+        <div><h2 id="boundary-title">The line read changed.</h2><p>The <a href="https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw">maintainer advisory</a> describes excessive memory use while buffering chunk-size lines. The <a href="https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed">patch</a> bounds both size and trailer lines.</p><p>In the local fixtures, 2.7.0 calls <code>readline()</code> without a limit. Version 2.8.0 requests at most 65,537 bytes and rejects a line longer than 65,536 bytes. The extra byte detects a line over the limit; the count includes its CRLF.</p><div class="boundary" role="img" aria-label="Response framing is checked before the chunk body is returned"><span>Response framing</span><b>65,536-byte line limit</b><span>Chunk body</span></div><p class="caption">Counted file reads verify rejection before body delivery. No memory-exhaustion run.</p></div>
+      </section>
+      <section class="study" aria-labelledby="versions-title">
+        <div class="margin-note"><p class="label">02 / Versions</p><p>The September fix comes after the earlier redirect fix.</p></div>
+        <div><h2 id="versions-title">Which versions changed?</h2><div class="table-wrap"><table><caption>Upstream advisory scope</caption><tbody><tr><th scope="row">Affected range</th><td>≥ 1.10.3 and &lt; 2.8.0</td></tr><tr><th scope="row">First fixed release</th><td>2.8.0</td></tr><tr><th scope="row">Advisory published</th><td>15 September 2026</td></tr><tr><th scope="row">Upstream weakness</th><td>CWE-770 / resource allocation without limits</td></tr></tbody></table></div><p>The earlier <a href="../">redirect study</a> compared 2.6.3 and 2.7.0 for CVE-2026-44431. Version 2.7.0 fixed that header issue and remains affected by this streaming issue.</p><p>Upgrade to a supported release containing the 2.8.0 fix. Check dependency constraints and the <a href="https://github.com/urllib3/urllib3/releases/tag/2.8.0">release notes</a> for other fixes and compatibility changes.</p></div>
+      </section>
+      <section class="study" aria-labelledby="evidence-title">
+        <div class="margin-note"><p class="label">03 / Local evidence</p><p>Eight fixtures through each streaming API, on each release.</p></div>
+        <div><h2 id="evidence-title">The boundary holds in the fixed release.</h2><p>32 cases exercise the unmodified wheels’ <code>stream()</code> and <code>read_chunked()</code> methods over counted in-memory files. PyPI hashes identify each wheel; its <code>response.py</code> bytes match the pinned upstream release commit.</p><div class="table-wrap"><table><caption>Observed in both APIs; line sizes include CRLF</caption><thead><tr><th scope="col">Fixture</th><th scope="col">2.7.0</th><th scope="col">2.8.0</th></tr></thead><tbody><tr><th scope="row">Ordinary three-byte body</th><td>Accepted</td><td>Accepted</td></tr><tr><th scope="row">65,535 / 65,536-byte size line</th><td>Accepted</td><td>Accepted</td></tr><tr><th scope="row">65,537 / 65,538-byte size line</th><td>Accepted</td><td>Rejected before any body read</td></tr><tr><th scope="row">65,536-byte trailer line</th><td>Accepted</td><td>Accepted</td></tr><tr><th scope="row">65,538-byte trailer line</th><td>Accepted</td><td>Rejected after the body was yielded</td></tr><tr><th scope="row">65,537-byte chunk body</th><td>Accepted</td><td>Accepted in 1,024-byte reads</td></tr></tbody></table></div><p>The two-byte-over size fixture shows an earlier stop: 2.7.0 returns all 65,538 line bytes, while 2.8.0 returns 65,537 and closes the response. The maximum fixture input is 65,551 bytes.</p><details><summary>What this establishes</summary><p>The fixed framing cap and rejection order work in these controlled cases. Body size has a separate budget. Trailer validation happens later, so an exception can follow body bytes already delivered to a caller.</p></details><details><summary>How the checks stay local</summary><p>Each wheel runs in a separate Python process with site packages disabled. A Python audit guard blocks socket creation and DNS. Case-time network attempts are zero. urllib3’s import-time IPv6 socket probe is also blocked and recorded separately.</p></details><details><summary>What is still untested?</summary><p>Memory exhaustion, real network buffering, TLS, the requests wrapper, decompression, and application exploitability. This is a small parser regression; it does not measure process RSS or reproduce a remote attack.</p></details><p><a href="results.json" download>Read all observations ↓</a> · <a href="README.md">Run the checks ↗</a> · <a href="https://github.com/SSH-PuR66/afterimage">Afterimage source ↗</a></p><p class="attribution">Upstream credit: <a href="https://github.com/pquentin">pquentin</a>, coordinator; <a href="https://github.com/illia-v">illia-v</a>, remediation reviewer. Independent regression and presentation by Sergio Rodriguez, developed with AI assistance.</p></div>
+      </section>
+      <section class="study" id="sources" aria-labelledby="sources-title">
+        <div class="margin-note"><p class="label">04 / Primary sources</p><p>Checked 05 October 2026.</p></div>
+        <div><h2 id="sources-title">Advisory, history, and release identity.</h2><ol class="source-list"><li><a href="https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw">Maintainer advisory / CVE-2026-97689 ↗</a><span>Scope, impact and original attribution</span></li><li><a href="https://github.com/urllib3/urllib3/blob/9a950b92d999f906b6020bb2d1076ee56cddd5d2/src/urllib3/response.py">urllib3 2.7.0 / pinned response.py ↗</a><span>Affected implementation</span></li><li><a href="https://github.com/urllib3/urllib3/blob/b1d30ab61fe0db8f11092805e8c5ac43e091064a/src/urllib3/response.py">urllib3 2.8.0 / pinned response.py ↗</a><span>Fixed implementation and length checks</span></li><li><a href="https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed">Upstream fix commit ↗</a><span>Implementation and upstream test changes</span></li><li><a href="https://github.com/urllib3/urllib3/releases/tag/2.8.0">urllib3 2.8.0 release notes ↗</a><span>Release context and compatibility notes</span></li><li><a href="pinned-releases.json" download>Exact release identities ↓</a><span>PyPI URLs, hashes, tag objects and commits</span></li><li><a href="source-review.json" download>Review record ↓</a><span>Source facts, regression scope and limits</span></li></ol></div>
+      </section>
+    </main>
+    <footer><span>Sergio Rodriguez · Afterimage / Chunk Lines</span><a href="/research-log.html">Back to research ↗</a></footer>
+  </div>
+</body>
+</html>

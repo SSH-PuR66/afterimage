@@ -1,0 +1,806 @@
+{
+  "schema_version": 1,
+  "title": "Afterimage / Chunk Lines",
+  "cve": "CVE-2026-97689",
+  "ghsa": "GHSA-vxq7-64xx-v4gw",
+  "classification": "known_cve_bounded_offline_regression",
+  "verified_at_utc": "2026-10-05T21:22:13.835727+00:00",
+  "advisory": "https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw",
+  "upstream_fix": "https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed",
+  "attribution": {
+    "coordinator": "pquentin",
+    "remediation_reviewer": "illia-v",
+    "portfolio_work": "AI-assisted independent bounded offline regression and presentation"
+  },
+  "runtime": {
+    "python": "3.14.5",
+    "platform": "Windows",
+    "isolated_subprocess": true,
+    "site_packages_disabled": true,
+    "socket_dns_audit_guard": true
+  },
+  "method": "Unmodified pinned wheels; real HTTPResponse.stream/read_chunked and http.client response over counted BytesIO files. Fixed fixture budget of 70,000 bytes; no server or network transport.",
+  "cases_per_version": 16,
+  "total_cases_passed": 32,
+  "network_attempts_during_cases": 0,
+  "import_network_probes_blocked": 2,
+  "maximum_fixture_input_bytes": 65551,
+  "versions": [
+    {
+      "version": "2.7.0",
+      "wheel_sha256": "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897",
+      "response_py_sha256": "f525f806491da0b82cc759deea1a6dfb93e772b9c3ccfcdea82d4369285273e3",
+      "import_origin_verified": true,
+      "cases_passed": 16,
+      "network_attempts": 0,
+      "import_network_probes_blocked": [
+        "socket.__new__"
+      ],
+      "maximum_input_bytes": 65551,
+      "cases": [
+        {
+          "case": "ordinary",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 13,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 3,
+          "body_bytes_yielded_sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+          "first_line": {
+            "requested": -1,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 5,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_below",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65543,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65535,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65535
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_at",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65544,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65536
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_above",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65545,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65537,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65537
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_two_above",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65546,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65538
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_at",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65547,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_two_above",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65549,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "body_above_line_limit",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65551,
+          "body_read_request_bytes": 1024,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 65537,
+          "body_bytes_yielded_sha256": "00056d4dbd0981b55e459d5b86bd544d5871ca666787e16992d56df358d1ea07",
+          "first_line": {
+            "requested": -1,
+            "returned": 7
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 65539,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "ordinary",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 13,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 3,
+          "body_bytes_yielded_sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+          "first_line": {
+            "requested": -1,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 5,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_below",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65543,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65535,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65535
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_at",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65544,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65536
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_above",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65545,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65537,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65537
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_two_above",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65546,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 65538
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_at",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65547,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_two_above",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65549,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": -1,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "body_above_line_limit",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65551,
+          "body_read_request_bytes": 1024,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 65537,
+          "body_bytes_yielded_sha256": "00056d4dbd0981b55e459d5b86bd544d5871ca666787e16992d56df358d1ea07",
+          "first_line": {
+            "requested": -1,
+            "returned": 7
+          },
+          "last_line": {
+            "requested": -1,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 65539,
+          "file_closed": true,
+          "response_closed": true
+        }
+      ]
+    },
+    {
+      "version": "2.8.0",
+      "wheel_sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "response_py_sha256": "0e4559c737914d4f8f941dca9ecfaf6caec6792258302bffec7b8b41dae3c71a",
+      "import_origin_verified": true,
+      "cases_passed": 16,
+      "network_attempts": 0,
+      "import_network_probes_blocked": [
+        "socket.__new__"
+      ],
+      "maximum_input_bytes": 65551,
+      "cases": [
+        {
+          "case": "ordinary",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 13,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 3,
+          "body_bytes_yielded_sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+          "first_line": {
+            "requested": 65537,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 5,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_below",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65543,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65535,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65535
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_at",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65544,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65536
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_above",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65545,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65537,
+          "outcome": "rejected",
+          "rejection_kind": "size",
+          "body_bytes_yielded": 0,
+          "body_bytes_yielded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "file_read_bytes_before_end": 0,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_two_above",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65546,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "rejected",
+          "rejection_kind": "size",
+          "body_bytes_yielded": 0,
+          "body_bytes_yielded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "file_read_bytes_before_end": 0,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_at",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65547,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_two_above",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65549,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "rejected",
+          "rejection_kind": "trailer",
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "body_above_line_limit",
+          "api": "stream",
+          "passed": true,
+          "input_bytes": 65551,
+          "body_read_request_bytes": 1024,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 65537,
+          "body_bytes_yielded_sha256": "00056d4dbd0981b55e459d5b86bd544d5871ca666787e16992d56df358d1ea07",
+          "first_line": {
+            "requested": 65537,
+            "returned": 7
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 65539,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "ordinary",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 13,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 3,
+          "body_bytes_yielded_sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+          "first_line": {
+            "requested": 65537,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 5,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_below",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65543,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65535,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65535
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_at",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65544,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65536
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_above",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65545,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65537,
+          "outcome": "rejected",
+          "rejection_kind": "size",
+          "body_bytes_yielded": 0,
+          "body_bytes_yielded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "file_read_bytes_before_end": 0,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "size_two_above",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65546,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "rejected",
+          "rejection_kind": "size",
+          "body_bytes_yielded": 0,
+          "body_bytes_yielded_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "first_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "file_read_bytes_before_end": 0,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_at",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65547,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65536,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "trailer_two_above",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65549,
+          "body_read_request_bytes": 1,
+          "framing_line_bytes": 65538,
+          "outcome": "rejected",
+          "rejection_kind": "trailer",
+          "body_bytes_yielded": 1,
+          "body_bytes_yielded_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "first_line": {
+            "requested": 65537,
+            "returned": 3
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 65537
+          },
+          "file_read_bytes_before_end": 3,
+          "file_closed": true,
+          "response_closed": true
+        },
+        {
+          "case": "body_above_line_limit",
+          "api": "read_chunked",
+          "passed": true,
+          "input_bytes": 65551,
+          "body_read_request_bytes": 1024,
+          "framing_line_bytes": null,
+          "outcome": "accepted",
+          "rejection_kind": null,
+          "body_bytes_yielded": 65537,
+          "body_bytes_yielded_sha256": "00056d4dbd0981b55e459d5b86bd544d5871ca666787e16992d56df358d1ea07",
+          "first_line": {
+            "requested": 65537,
+            "returned": 7
+          },
+          "last_line": {
+            "requested": 65537,
+            "returned": 2
+          },
+          "file_read_bytes_before_end": 65539,
+          "file_closed": true,
+          "response_closed": true
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "boundary_fixture.py": "3bf8f52438aa54e0aba4194fc9073adf638e7518430b37819d2136773c68d59a",
+    "run_boundary.py": "ca79fa91de6f380d6c4db0ad7f90557a375cf56622c2f8c67db6d887bc412153",
+    "pinned-releases.json": "72fc662cbf2a4fa5effa3876c585b431d6ea42cea1dc143aa35361596eb2bf14",
+    "test_boundary.py": "7b0bb6b42b79e76d1448d506f94c4d696d4b42da8eea02c1c8fc08ffaa3b85ce"
+  },
+  "limits": [
+    "Known published CVE; no new discovery or assignment.",
+    "Small in-memory regression of framing behavior, not a memory-exhaustion demonstration.",
+    "No real server, network read-ahead, TLS, requests wrapper, decompression, or application exploitability tested.",
+    "2.8.0 is fixed for this CVE; that is not a blanket security claim about a release."
+  ]
+}

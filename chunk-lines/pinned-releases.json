@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "package": "urllib3",
+  "cve": "CVE-2026-97689",
+  "advisory": "https://github.com/urllib3/urllib3/security/advisories/GHSA-vxq7-64xx-v4gw",
+  "upstream_fix_commit": "cd770b059b543be29298ea5c52afb0b1b090f5ed",
+  "upstream_fix": "https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed",
+  "releases": [
+    {
+      "version": "2.7.0",
+      "status_for_this_cve": "affected",
+      "filename": "urllib3-2.7.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl",
+      "sha256": "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897",
+      "size_bytes": 131087,
+      "metadata": "https://pypi.org/pypi/urllib3/2.7.0/json",
+      "tag_object": "d5df809a675471a67a576a7921820104153b9366",
+      "commit": "9a950b92d999f906b6020bb2d1076ee56cddd5d2",
+      "response_py_sha256": "f525f806491da0b82cc759deea1a6dfb93e772b9c3ccfcdea82d4369285273e3"
+    },
+    {
+      "version": "2.8.0",
+      "status_for_this_cve": "fixed",
+      "filename": "urllib3-2.8.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl",
+      "sha256": "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3",
+      "size_bytes": 135717,
+      "metadata": "https://pypi.org/pypi/urllib3/2.8.0/json",
+      "tag_object": "2f980b433a89399ad5efd72e7f6da04e667ea287",
+      "commit": "b1d30ab61fe0db8f11092805e8c5ac43e091064a",
+      "response_py_sha256": "0e4559c737914d4f8f941dca9ecfaf6caec6792258302bffec7b8b41dae3c71a"
+    }
+  ]
+}
