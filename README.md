@@ -1,4 +1,6 @@
-# CVE Replay: the redirect header boundary
+# Afterimage: the redirect header boundary
+
+Previously published as CVE Replay. The repository name and presentation changed; the pinned releases, original reporter attribution, fixture paths, and recorded results retain their original identity.
 
 **CVE-2026-44431 · urllib3 2.6.3 → 2.7.0 · reproduced 27 September 2026**
 
