@@ -1,6 +1,13 @@
-# Afterimage: the redirect header boundary
+# Afterimage: protocol boundary studies
 
 Previously published as CVE Replay. The repository name and presentation changed; the pinned releases, original reporter attribution, fixture paths, and recorded results retain their original identity.
+
+Independent offline studies compare published fixes using exact releases and bounded fixtures. Each study keeps its measured behavior, transport boundary, and attribution explicit.
+
+- **Redirect headers** — CVE-2026-44431, urllib3 2.6.3 / 2.7.0. The original study follows below.
+- **[Chunk Lines](chunk-lines/README.md)** — CVE-2026-97689, pinned urllib3 2.7.0 / 2.8.0, with 32 bounded offline cases. It checks framing-line acceptance and rejection; it does not establish memory exhaustion or application impact.
+
+## The redirect header boundary
 
 **CVE-2026-44431 · urllib3 2.6.3 → 2.7.0 · reproduced 27 September 2026**
 
